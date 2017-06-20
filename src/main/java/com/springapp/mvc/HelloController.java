@@ -57,7 +57,7 @@ public class HelloController {
         model.addAttribute("name", name);
         return "hello";
     }
-
+//fkltgk;gkgpotghvrhvrjr
     @RequestMapping(value ="/showImage", method = RequestMethod.POST)
     public String showImage()  {
         return "showImage";
