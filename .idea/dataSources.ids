@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component name="dataSourceStorage">
-  <data-source name="MySQL - @localhost" uuid="654d6f81-bf8c-434e-9243-563843c01ea1">
-    <database-info product="MySQL" version="5.6.28-0ubuntu0.15.04.1" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
+  <data-source name="MySQL - UserDB@localhost" uuid="6b069365-9f5d-4753-aafc-ae46415dfb56">
+    <database-info product="MySQL" version="5.6.27-0ubuntu0.15.04.1" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
       <extra-name-characters>#@</extra-name-characters>
       <identifier-quote-string>`</identifier-quote-string>
     </database-info>
     <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact"/>
-    <schema name="" catalog="mydb"/>
-    <table name="Restaurant" schema="" catalog="mydb" type="TABLE">
-      <column name="Name" sqlType="VARCHAR" precision="30" scale="0" nullable="false" jdbcType="12"/>
-      <column name="Lat" sqlType="FLOAT" precision="12" scale="0" nullable="false" jdbcType="7"/>
-      <column name="Lon" sqlType="FLOAT" precision="12" scale="0" nullable="false" jdbcType="7"/>
-      <primary-key name="PRIMARY" columns="Lat,Lon"/>
-    </table>
-    <table name="customers" schema="" catalog="mydb" type="TABLE">
-      <column name="name" sqlType="VARCHAR" precision="20" scale="0" nullable="false" jdbcType="12"/>
-      <column name="username" sqlType="VARCHAR" precision="30" scale="0" nullable="false" jdbcType="12"/>
-      <column name="email" sqlType="VARCHAR" precision="30" scale="0" nullable="false" jdbcType="12"/>
-      <column name="date" sqlType="DATE" precision="10" scale="0" nullable="false" jdbcType="91"/>
-      <primary-key name="PRIMARY" columns="name"/>
+    <schema name="" catalog="UserDB"/>
+    <table name="Customers" schema="" catalog="UserDB" type="TABLE">
+      <column name="email" sqlType="VARCHAR" precision="37" scale="0" nullable="false" jdbcType="12"/>
+      <column name="username" sqlType="VARCHAR" precision="34" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="username"/>
       <index name="unique_username" unique="true" columns="username"/>
     </table>
-    <table name="employees" schema="" catalog="mydb" type="TABLE">
-      <column name="usrname" sqlType="VARCHAR" precision="30" scale="0" nullable="false" jdbcType="12"/>
-      <column name="email" sqlType="VARCHAR" precision="30" scale="0" nullable="false" jdbcType="12"/>
-      <primary-key name="PRIMARY" columns="usrname"/>
-      <index name="unique_usrname" unique="true" columns="usrname"/>
+    <table name="Restaurant" schema="" catalog="UserDB" type="TABLE">
+      <column name="Name" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12"/>
+      <column name="Lat" sqlType="FLOAT" precision="12" scale="0" nullable="true" jdbcType="7"/>
+      <column name="Lon" sqlType="FLOAT" precision="12" scale="0" nullable="true" jdbcType="7"/>
+      <primary-key name="PRIMARY" columns="Name"/>
+    </table>
+    <table name="users" schema="" catalog="UserDB" type="TABLE">
+      <column name="userid" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="firstname" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
+      <column name="lastname" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
+      <column name="dob" sqlType="DATE" precision="10" scale="0" nullable="true" jdbcType="91"/>
+      <column name="email" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="userid"/>
     </table>
   </data-source>
 </component>

@@ -1,7 +1,7 @@
 <component name="ArtifactManager">
   <artifact type="war" build-on-make="true" name="Foody:war">
     <output-path>$PROJECT_DIR$/target</output-path>
-    <root id="archive" name="Foody.war">
+    <root id="archive" name="foodie.war">
       <element id="artifact" artifact-name="Foody:war exploded" />
     </root>
   </artifact>

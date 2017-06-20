@@ -5,6 +5,9 @@ package com.restaurants;
  */
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -13,11 +16,12 @@ import java.util.List;
 public class findDist{
 
 
-    public static String distance(List<Restaurants> arrayList, float lat2, float lon2) {
+    public static ArrayList<Restaurants> distance(ArrayList<Restaurants> arrayList, float lat2, float lon2) {
 
         for(int i = 0; i <arrayList.size(); i++) {
             Restaurants res=arrayList.get(i);
             String unit = "K";
+            System.out.print("lat1");
             float lat1 = res.getLat();
             float lon1 = res.getLon();
             float theta = lon1 - lon2;
@@ -33,14 +37,23 @@ public class findDist{
             arrayList.get(i).setDist(dist);
 
         }
-        Gson gson =new Gson();
+        Collections.sort(arrayList, new Comparator<Restaurants>(){
+            public int compare(Restaurants o1, Restaurants o2){
+                if(o1.getDist() == o2.getDist())
+                    return 0;
+                return o1.getDist() < o2.getDist() ? -1 : 1;
+            }
+        });
+       Gson gson =new Gson();
         String jsonCartList = gson.toJson(arrayList);
 // print your generated json
-        System.out.println("jsonList: " + jsonCartList);
+        System.out.println("jsonList: " + jsonCartList+arrayList.size());
 
-        return jsonCartList;
-
+       // return jsonCartList;
+       return arrayList;
     }
+
+
 
     /*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
 /*:: This function converts decimal degrees to radians :*/

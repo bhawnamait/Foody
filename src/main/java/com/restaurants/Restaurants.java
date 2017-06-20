@@ -1,4 +1,7 @@
 package com.restaurants;
+
+import java.util.Comparator;
+
 /**
  * Created by bhawna on 19/04/16.
  */
@@ -7,7 +10,7 @@ public class Restaurants {
     private float lat;
     private float lon;
     private float dist;
-
+//jgjlgkn
     public Restaurants( String name,float lat,float lon ,float dist){
         this.name=name;
         this.lat=lat;

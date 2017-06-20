@@ -1,5 +1,6 @@
 package com.springapp.mvc;
 
+import com.google.gson.Gson;
 import com.restaurants.Restaurants;
 
 import java.sql.*;
@@ -11,8 +12,8 @@ import com.restaurants.findDist;
  */
 public class jdbc {
 
-    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    static final String DB_URL = "jdbc:mysql://localhost:3306/mydb";
+
+    static final String DB_URL = "jdbc:mysql://localhost:3306/UserDB";
 
     //  Database credentials
     static final String USER = "root";
@@ -37,15 +38,17 @@ public class jdbc {
     }
     public static void addNew(String name,float lat,float lon) {
         PreparedStatement st = null;
-        try {
+
+       try {
             //STEP 3: Open a connection
+
             st = conn.prepareStatement("insert into Restaurant(Name,Lat,Lon) values (?,?,?);");
             //now you bind the data to your parameters
             st.setString(1, name);
             st.setFloat(2, lat);
             st.setFloat(3, lon);
             st.executeUpdate();
-
+           System.out.print("added");
         } catch (SQLException e) {
             e.printStackTrace();
         }finally{
@@ -64,25 +67,127 @@ public class jdbc {
         }//end try
 
     }
-    public static void findAllRest(float Lat,float Lon) throws SQLException, ClassNotFoundException {
+    private static Connection getDBConnection() {
 
-        List<Restaurants> arrayList = new ArrayList<Restaurants>();
-        System.out.println("find nearest restaurant...");
-        String selectTableSQL = "SELECT Lat,Lon from Restaurant";
-        Statement statement = conn.createStatement();
-        ResultSet rs = statement.executeQuery(selectTableSQL);
-        while (rs.next()) {
+        Connection conn = null;
 
-            String lat2 = rs.getString("Lat");
-            String lon2 = rs.getString("Lon");
-            String name= rs.getString("Name");
-            float latf= Float.parseFloat(lat2);
-            float lonf = Float.parseFloat(lon2);
-            float dist=-1;
-            Restaurants res= new Restaurants(name,latf,lonf,dist);
-            arrayList.add(res);
+        try {
+
+            Class.forName("com.mysql.jdbc.Driver");
+            //STEP 3: Open a connection
+
+        } catch (ClassNotFoundException e) {
+
+            System.out.println(e.getMessage());
+
         }
-        String x=findDist.distance(arrayList, Lat, Lon);
 
+        try {
+
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
+            return conn;
+
+        } catch (SQLException e) {
+
+            System.out.println(e.getMessage());
+
+        }
+
+        return conn;
+
+    }
+    public static ArrayList<Restaurants> AddRest()
+    {
+        Connection conn=null;
+        PreparedStatement st = null;
+
+
+            ArrayList<Restaurants> arrayList = new ArrayList<Restaurants>();
+        System.out.println("find nearest restaurant...");
+        Statement statement = null;
+        try {
+            conn=getDBConnection();
+            String selectTableSQL = "SELECT Name,Lat,Lon from Restaurant";
+            statement = conn.createStatement();
+            ResultSet rs = statement.executeQuery(selectTableSQL);
+            while (rs.next()) {
+
+                String lat2 = rs.getString("Lat");
+                String lon2 = rs.getString("Lon");
+                String name = rs.getString("Name");
+                float latf = Float.parseFloat(lat2);
+                float lonf = Float.parseFloat(lon2);
+                float dist = -1;
+                Restaurants res = new Restaurants(name, latf, lonf, dist);
+                arrayList.add(res);
+            }
+        }
+        catch(SQLException e) {
+            e.printStackTrace();
+        }finally {
+            //finally block used to close resources
+            try {
+                if (statement != null)
+                    conn.close();
+            } catch (SQLException ignored) {
+            }// do nothing
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }//end finally try
+        }
+
+        Gson gson =new Gson();
+        String jsonCartList = gson.toJson(arrayList);
+// print your generated json
+        System.out.println("jsonList: " + jsonCartList);
+
+       // return jsonCartList;
+        return arrayList;
+    }
+    public static  ArrayList<Restaurants>  findAllRest(float Lat, float Lon) throws SQLException, ClassNotFoundException {
+
+        ArrayList<Restaurants> arrayList = new ArrayList<Restaurants>();
+        System.out.println("find nearest restaurant...");
+        Connection conn=null;
+        Statement statement = null;
+        try {
+            String selectTableSQL = "SELECT Name,Lat,Lon from Restaurant";
+            conn=getDBConnection();
+            statement = conn.createStatement();
+            ResultSet rs = statement.executeQuery(selectTableSQL);
+            while (rs.next()) {
+
+                String lat2 = rs.getString("Lat");
+                String lon2 = rs.getString("Lon");
+                String name = rs.getString("Name");
+                float latf = Float.parseFloat(lat2);
+                float lonf = Float.parseFloat(lon2);
+                float dist = -1;
+                Restaurants res = new Restaurants(name, latf, lonf, dist);
+                arrayList.add(res);
+            }
+        }
+            catch(SQLException e) {
+                e.printStackTrace();
+            }finally {
+            //finally block used to close resources
+            try {
+                if (statement != null)
+                    conn.close();
+            } catch (SQLException ignored) {
+            }// do nothing
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }//end finally try
+        }
+
+        return findDist.distance(arrayList, Lat, Lon);
     }
 }
