@@ -57,16 +57,19 @@ public class HelloController {
         model.addAttribute("name", name);
         return "hello";
     }
-
+//fkltgk;gkgpotghvrhvrjr
     @RequestMapping(value ="/showImage", method = RequestMethod.POST)
     public String showImage()  {
         return "showImage";
     }
     @RequestMapping(value = "/LocalFeed",method = RequestMethod.GET)
+    //ksddkss;ks
     public String jsonf(HttpServletRequest request,ModelMap model)
     {
 
         //String s= null;
+        //mc,mv,mvlflfpfp
+        //hjhkkmn,jkk
         ArrayList<Restaurants> s = new ArrayList<Restaurants>();
         Gson gson =new Gson();
 
