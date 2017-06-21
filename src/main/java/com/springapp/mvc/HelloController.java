@@ -35,7 +35,7 @@ public class HelloController {
     public String latitudeAndLong(@RequestBody Restaurants search,ModelMap model)throws SQLException
     {
 
-
+//i m adding this to see difference
         String y="sdv";
         Gson gson=new Gson();
         String json= gson.toJson(search);
